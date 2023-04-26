@@ -22,6 +22,18 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      tpu: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      nik: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      phone: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
