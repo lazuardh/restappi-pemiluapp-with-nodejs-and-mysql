@@ -1,18 +1,10 @@
 var express = require('express');
-const {User} = require('../models');
 var router = express.Router();
 const verifyToken = require('../middleware/verify_token');
+const userControllers = require('../controllers/userController');
 
 /* GET users listing. */
-router.get('/',verifyToken,  async (req,res) => {
-  const users = await User.findAll({
-    attributes: {exclude: ['password']},
-  });
-  return  res.status(200).json({
-    message: 'successfully',
-    values: users
-  });
-} );
+router.get('/',verifyToken, userControllers.getAllUsers);
 
 //post
 // router.post('/',verifyToken, async (req,res) => {
@@ -32,42 +24,12 @@ router.get('/',verifyToken,  async (req,res) => {
 // });
 
 // get users by id
-router.get('/:userId',verifyToken, async (req, res) => {
-  const {userId} = req.params;
-  const user = await User.findByPk(userId, {
-    attributes: {exclude: ['password']},
-  });
-  if(!user) return res.status(404).json({
-    massage: 'users NOT FOUND'
-  });
-  return res.json(user);
-});
+router.get('/:userId',verifyToken, userControllers.getUserById);
 
 //update users
-router.put('/:userId',verifyToken, async (req, res) => {
-  const {userId} = req.params;
-  const user = await User.findByPk(userId, {
-    attributes: {exclude: ['password']},
-  });
-  if(!user) return res.status(404).json({
-    massage: 'users NOT FOUND'
-  });
-
-  await user.update(req.body);
-  return res.json(user);
-});
+router.put('/:userId',verifyToken, userControllers.updateUser);
 
 //delete
-router.delete('/:userId',verifyToken, async (req, res) => {
-  const {userId} = req.params;
-  const user = await User.findByPk(userId);
-  if(!user) return res.status(404).json({
-    massage: 'users NOT FOUND'
-  });
+router.delete('/:userId',verifyToken, userControllers.deleteUser);
 
-  await user.destroy();
-  return res.json({
-    message: 'ok'
-  });
-});
 module.exports = router;
