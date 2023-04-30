@@ -12,14 +12,14 @@ const getAllUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
     const {userId} = req.params;
-    const user = await User.findByPk(userId, {
+    const user = await User.findByPk(userId, { 
         attributes: {exclude: ['password']},
     });
 
     if(!user) return res.status(404).json({
         massage: 'users NOT FOUND'
     });
-  return res.json(user);
+    return res.json(user);
 }
 
 const updateUser = async (req, res) => {
